@@ -1,11 +1,11 @@
 import paho.mqtt.client as mqtt
 import ssl
 
-BROKER = ""
+BROKER = "q045de19.ala.eu-central-1.emqxsl.com"
 PORT = 8883
-USERNAME = ""
-PASSWORD = ""
-TOPIC = "" 
+USERNAME = "lucas"
+PASSWORD = "123"
+TOPIC = "MachineLearning"
 CA_CERT_PATH = "./Configurations/Certificate/emqxsl-ca.crt"
 
 def ConnectMqtt():

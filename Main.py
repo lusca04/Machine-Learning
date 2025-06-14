@@ -1,20 +1,28 @@
 from ultralytics import YOLO
-from Configurations.MttConfig import PublishMessage
+from Configurations.MqttConfig import PublishMessage
+from Configurations.LogConfig import gerar_pdf
+from datetime import datetime
+from Configurations.LiveConfig import app
 
-# model = YOLO("yolov8x.pt")#modelo nao treinado  
-# OBS: yolov8X.pt = melhor qualidade || yolov8n.pt = menor qualidade, melhor pra testes
-model = YOLO("./MachineLearningTraining/runs/detect/train2/weights/best.pt") #modelo treinado com yolov8n.pt
+model = YOLO("./MachineLearningTraining/runs/detect/train2/weights/best.pt")
+    
+def main ():
+    for result in model.predict(source="0", show=True, stream=True):
+        caixa_errada = False
 
-for result in model.predict(source = "0", show = True, stream = True):  
-    #Source 0 -> webcam, strem = true -> codigo conseguir validar em tempo real
-    caixa_errada = False
-    for box in result.boxes:
-        cls = int(box.cls[0])
-        if model.names[cls] == "caixa errada":
-            caixa_errada = True
-            break
-        
-    if caixa_errada == True: # OBS:msg tem q ser string
-        PublishMessage("1") #Faz o seletor se mover 
-    elif caixa_errada != False:
-        PublishMessage("0") #Faz o seletor ignorar 
+        for box in result.boxes:
+            cls = int(box.cls[0])
+            if model.names[cls] == "caixa errada":
+                caixa_errada = True
+                break
+
+        if caixa_errada:
+            frame = result.orig_img
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            descricao = f"Caixa errada detectada em {timestamp}"
+            gerar_pdf(frame, descricao)
+            PublishMessage("1")
+        else:
+            PublishMessage("0")
+
+main()

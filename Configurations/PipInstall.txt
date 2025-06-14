@@ -1,0 +1,4 @@
+1 • python -m venv venv
+2 • python install -r requirements.txt
+
+OPCIONAL • pip install paho-mqtt, ultalytics, reportlab, flask opencv-python
