@@ -5,6 +5,8 @@ Como usar?
 
 • Adicionar pasta Certificate me Configurations e adicionar pastas Datasets-> Nome qualquer -> train (o path tem q ficar assim (Datasets/caixas/train))
 
+• Adicionar pasta Logs em Configuration -> ./MachineLearning/Configurations/Logs
+
 • Iniciar Venv -> python -m venv venv
 
 • Baixar todos os pacotes presentes no arquivo requirements.txt -> pip install -r requirements.txt
